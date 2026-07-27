@@ -107,10 +107,9 @@ app.post('/forgotPassword', async(req,res)=>{
 
             res.status(200).send("Password Updated");
         });
+    })
 
-});
-
-app.post('/newPost', (req, res) => {
+    app.post('/newPost', (req, res) => {
 
     const { postTitle, postDescription, userID } = req.body;
 
@@ -118,7 +117,8 @@ app.post('/newPost', (req, res) => {
 
     connection.query(
         `INSERT INTO Posts (UserID, postTitle, postDescription)
-         VALUES (${userID}, "${postTitle}", "${postDescription}")`,
+         VALUES (?, ?, ?)`,
+        [userID, postTitle, postDescription],
         (err, result) => {
 
             if (err) {

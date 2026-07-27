@@ -110,18 +110,27 @@ app.post('/forgotPassword', async(req,res)=>{
 
 });
 
-app.post('/newPost',async(req,res) =>{
-    const{postTitle,postDescription,userID}=req.body;
-    connection.query(`insert into Posts(UserID,postTitle,postDescription)values(${userID},"${postTitle}","${postDescription}")`,async(err,response)=>{
-      if(err){
-            res.status(500);
-            return
-        }  
-        res.status(200)
-    })
+app.post('/newPost', (req, res) => {
 
-    console.log("New Post: ",req.body);
-})
+    const { postTitle, postDescription, userID } = req.body;
+
+    console.log("New Post:", req.body);
+
+    connection.query(
+        `INSERT INTO Posts (UserID, postTitle, postDescription)
+         VALUES (${userID}, "${postTitle}", "${postDescription}")`,
+        (err, result) => {
+
+            if (err) {
+                console.error(err);
+                return res.status(500).send("Error saving post");
+            }
+
+            return res.status(200).send("Post saved successfully");
+        }
+    );
+
+});
 
 app.get('/getMyPosts', (req, res) => {
 

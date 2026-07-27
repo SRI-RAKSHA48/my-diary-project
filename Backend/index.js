@@ -2,18 +2,22 @@ const express=require('express');
 const cors=require('cors');
 const bcrypt=require('bcrypt');
 const mysql=require('mysql2');
-
+require('dotenv').config();
 const app=express();
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true}));
 
 const connection = mysql.createConnection({
-    host: 'localhost',      // Database host
-    user: 'root',           // Your database username
-    password: 'Raksha@123',   // Your database password
-    database: 'myDiary'     // The name of the database
-})
+    host: 'mysql-15d19acd-my-diary-project.a.aivencloud.com',
+    port: 27247,
+    user: 'avnadmin',
+    password: process.env.DB_PASSWORD,
+    database: 'defaultdb',
+    ssl: {
+        rejectUnauthorized: false
+    }
+});
 
 connection.connect((err) =>{
     if(err){
@@ -22,9 +26,8 @@ connection.connect((err) =>{
     }
     console.log('Connected to the MySQL database!');
 });
-app.get('/',(req,res)=>{
-    console.log(req)
-    res.status(200).json({message:'Successful'})
+    app.get("/", (req, res) => {
+    res.send("My Diary Backend is running");
 })
 
 app.post('/registerUser', async (req,res)=>{
@@ -38,9 +41,9 @@ app.post('/registerUser', async (req,res)=>{
     console.log("Hashed Password: ",hashedPassword)
     connection.query(`insert into Users(EmailID,HashedPassword) values('${email}','${hashedPassword}')`,(err,results)=>{
         if(err){
-            res.status(500).send('no')
+           return res.status(500).send('no')
         }
-        res.status(200).send('okay')
+        return res.status(200).send('okay')
     })
 } catch (err) {
     console.error(err);

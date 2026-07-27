@@ -29,7 +29,7 @@ async function loadPosts(){
 
     const userID = localStorage.getItem("userID");
 
-    const response = await fetch(`http://localhost:3000/getMyPosts?userID=${userID}`);
+    const response = await fetch(`https://my-diary-project-23ll.onrender.com/getMyPosts?userID=${userID}`);
 
     const posts = await response.json();
 
@@ -68,7 +68,7 @@ async function deletePost(id){
         return;
     }
 
-    const response = await fetch(`http://localhost:3000/deletePost?id=${id}`,{
+    const response = await fetch(`https://my-diary-project-23ll.onrender.com/deletePost?id=${id}`,{
         method:"DELETE"
     });
 

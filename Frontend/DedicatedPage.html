@@ -27,7 +27,7 @@ const id = params.get("id");
 
 async function loadPost(){
 
-    const response = await fetch(`http://localhost:3000/getPost?id=${id}`);
+    const response = await fetch(`https://my-diary-project-23ll.onrender.com/getPost?id=${id}`);
 
     const post = await response.json();
 
